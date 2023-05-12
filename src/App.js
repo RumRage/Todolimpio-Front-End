@@ -12,6 +12,9 @@ import { ProductIndex } from './components/products/ProductIndex';
 import { ProductCreate } from './components/products/ProductCreate';
 import { ProductEdit } from './components/products/ProductEdit';
 
+import { DisposableIndex } from './components/disposables/DisposableIndex';
+import { DisposableCreate } from './components/disposables/DisposableCreate';
+import { DisposableEdit } from './components/disposables/DisposableEdit';
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
             <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
               <Link to="/products">Productos</Link>
             </li>
+            <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
+              <Link to="/disposable">Descartables</Link>
+            </li>
           </ul>
         </nav>
         <Routes>
@@ -37,6 +43,9 @@ function App() {
           <Route path="/products" element={<ProductProvider><ProductIndex /></ProductProvider>} />
           <Route path="/products/create" element={<ProductProvider><ProductCreate /></ProductProvider>} />
           <Route path="/products/:id/edit" element={<ProductProvider><ProductEdit /></ProductProvider>} />
+          <Route path="/disposables" element={<DisposableProvider><DisposableIndex /></DisposableProvider>} />
+          <Route path="/disposables/create" element={<DisposableProvider><DisposableCreate /></DisposableProvider>} />
+          <Route path="/disposables/:id/edit" element={<DisposableProvider><DisposableEdit /></DisposableProvider>} />
         </Routes>
         </div>
       </div> 
