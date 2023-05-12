@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +23,7 @@ export const ServiceProvider = ({ children }) => {
   const [service, setService] = useState([]);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
   
   const getServices = async () => {
     const apiServices = await axios.get("services");
@@ -40,6 +41,19 @@ export const ServiceProvider = ({ children }) => {
     });
   };
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('/categories');
+        setCategories(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchCategories();
+  }, []);
+
   const storeService = async (e) => {
     e.preventDefault();
     try{
@@ -52,6 +66,8 @@ export const ServiceProvider = ({ children }) => {
       }
     }
   }
+
+
 
   const updateService = async (e) => {
     e.preventDefault();
@@ -75,7 +91,7 @@ export const ServiceProvider = ({ children }) => {
     }
   
 
-  return <ServiceContext.Provider value={{ service, services, getService, getServices, onChange, formValues, storeService, errors, updateService, deleteService, setErrors }}>{children}</ServiceContext.Provider>
+  return <ServiceContext.Provider value={{ service, services, getService, getServices, onChange, formValues, storeService, errors, updateService, deleteService, setErrors, categories, setCategories }}>{children}</ServiceContext.Provider>
 }
 
 export default ServiceContext;
