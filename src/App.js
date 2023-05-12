@@ -1,14 +1,20 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import { CategoryProvider } from './Context/CategoryContext';
+import { ProductProvider } from './Context/ProductContext';
 
 import { Home } from './components/Home';
+
 import { CategoryIndex } from './components/categories/CategoryIndex';
 import { CategoryCreate } from './components/categories/CategoryCreate';
 import { CategoryEdit } from './components/categories/CategoryEdit';
 
+import { ProductIndex } from './components/products/ProductIndex';
+import { ProductCreate } from './components/products/ProductCreate';
+import { ProductEdit } from './components/products/ProductEdit';
+
+
 function App() {
   return (
-    <CategoryProvider>
       <div className="bg-slate-200">
         <div className="max-w-7xl mx-auto min-h-screen">
         <nav>
@@ -19,17 +25,21 @@ function App() {
             <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
               <Link to="/categories">Categorias</Link>
             </li>
+            <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
+              <Link to="/products">Productos</Link>
+            </li>
           </ul>
         </nav>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/categories" element={<CategoryIndex />} />
-          <Route path="/categories/create" element={<CategoryCreate />} />
-          <Route path="/categories/:id/edit" element={<CategoryEdit />} />
+        <Route path="/categories" element={<CategoryProvider><CategoryIndex /></CategoryProvider>} />
+          <Route path="/categories/create" element={<CategoryProvider><CategoryCreate /></CategoryProvider>} />
+          <Route path="/categories/:id/edit" element={<CategoryProvider><CategoryEdit /></CategoryProvider>} />
+          <Route path="/products" element={<ProductProvider><ProductIndex /></ProductProvider>} />
+          <Route path="/products/create" element={<ProductProvider><ProductCreate /></ProductProvider>} />
+          <Route path="/products/:id/edit" element={<ProductProvider><ProductEdit /></ProductProvider>} />
         </Routes>
         </div>
       </div> 
-    </CategoryProvider>
   );
 }
 
