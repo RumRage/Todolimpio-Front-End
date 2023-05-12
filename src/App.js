@@ -2,6 +2,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import { CategoryProvider } from './Context/CategoryContext';
 import { ProductProvider } from './Context/ProductContext';
 import { DisposableProvider } from './Context/DisposableContext';
+import { ServiceProvider } from './Context/ServiceContext';
 
 import { Home } from './components/Home';
 
@@ -16,6 +17,11 @@ import { ProductEdit } from './components/products/ProductEdit';
 import { DisposableIndex } from './components/disposables/DisposableIndex';
 import { DisposableCreate } from './components/disposables/DisposableCreate';
 import { DisposableEdit } from './components/disposables/DisposableEdit';
+
+import { ServiceIndex } from './components/services/ServiceIndex';
+import { ServiceCreate } from './components/services/ServiceCreate';
+import { ServiceEdit } from './components/services/ServiceEdit';
+
 
 function App() {
   return (
@@ -35,6 +41,9 @@ function App() {
             <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
               <Link to="/disposables">Descartables</Link>
             </li>
+            <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
+              <Link to="/services">Servicios</Link>
+            </li>
           </ul>
         </nav>
         <Routes>
@@ -47,6 +56,9 @@ function App() {
           <Route path="/disposables" element={<DisposableProvider><DisposableIndex /></DisposableProvider>} />
           <Route path="/disposables/create" element={<DisposableProvider><DisposableCreate /></DisposableProvider>} />
           <Route path="/disposables/:id/edit" element={<DisposableProvider><DisposableEdit /></DisposableProvider>} />
+          <Route path="/services" element={<ServiceProvider><ServiceIndex /></ServiceProvider>} />
+          <Route path="/services/create" element={<ServiceProvider><ServiceCreate /></ServiceProvider>} />
+          <Route path="/services/:id/edit" element={<ServiceProvider><ServiceEdit /></ServiceProvider>} />
         </Routes>
         </div>
       </div> 
