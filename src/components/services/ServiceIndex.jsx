@@ -38,7 +38,7 @@ export const ServiceIndex = () => {
                             <tr key={service.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td className="px-6 py-4">{service.id}</td>
                                 <td className="px-6 py-4">{service.name}</td>
-                                <td className="px-6 py-4">{service.category_id}</td>
+                                <td className="px-6 py-4">{service.category_name}</td>
                                 <td className="px-6 py-4">{service.price}</td>
                                 <td className="px-6 py-4 space-x-2">
                                  <Link to={`/services/${service.id}/edit`} className="px-4 py-2 bg-green-500 hover:bg-green-700 text-white rounded-md">Editar</Link>

@@ -35,7 +35,7 @@ export const ServiceProvider = ({ children }) => {
     setService(apiService);
     setFormValues({
     name: apiService.name,
-    category_id: apiService.category_id,
+    category_name: apiService.category_name,
     price: apiService.price,
     });
   };
