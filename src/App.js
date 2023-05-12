@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import { CategoryProvider } from './Context/CategoryContext';
 import { ProductProvider } from './Context/ProductContext';
+import { DisposableProvider } from './Context/DisposableContext';
 
 import { Home } from './components/Home';
 
