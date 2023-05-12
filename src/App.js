@@ -33,7 +33,7 @@ function App() {
               <Link to="/products">Productos</Link>
             </li>
             <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
-              <Link to="/disposable">Descartables</Link>
+              <Link to="/disposables">Descartables</Link>
             </li>
           </ul>
         </nav>
