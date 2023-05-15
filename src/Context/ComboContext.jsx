@@ -9,28 +9,38 @@ const ComboContext = createContext();
 export const ComboProvider = ({ children }) => {
   const initialForm = {
     name: "",
-    service_id: "",
+    service_id: [],
     price: "",
     discount: "",
     total_price: ""
   };
   const [formValues, setFormValues] = useState(initialForm);
 
-  const onChange = (e) => {
-    const { name, value} = e.target;
-    setFormValues({...formValues, [name]: value});
-    }
-
   const [combos, setCombos] = useState([]);
   const [combo, setCombo] = useState([]);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [services, setServices] = useState([]);
-  
+
   const getCombos = async () => {
     const response = await axios.get("combos?with=services"); // Eager Loading
     setCombos(response.data.data);
 };
+
+const onChange = (e) => {
+  const { name, options } = e.target;
+  const selectedIds = Array.from(options)
+    .filter((option) => option.selected)
+    .map((option) => option.value);
+
+  setFormValues((prevFormValues) => ({
+    ...prevFormValues,
+    [name]: selectedIds,
+  }));
+};
+
+  
+  
 
   const getCombo = async (id) => {
     const response = await axios.get("combos/" + id);
@@ -65,7 +75,13 @@ export const ComboProvider = ({ children }) => {
   const storeCombo = async (e) => {
     e.preventDefault();
     try{
-      await axios.post("combos", formValues);
+        await axios.post("combos", {
+            name: formValues.name,
+            price: formValues.price,
+            discount: formValues.discount,
+            total_price: formValues.total_price,
+            service_id: formValues.services_ids // Cambio en el nombre del campo
+          });
       setFormValues(initialForm);
       navigate("/combos");
     } catch(e){
