@@ -22,6 +22,10 @@ import { ServiceIndex } from './components/services/ServiceIndex';
 import { ServiceCreate } from './components/services/ServiceCreate';
 import { ServiceEdit } from './components/services/ServiceEdit';
 
+import { ComboIndex } from './components/combos/ComboIndex';
+import { ComboCreate } from './components/combos/ComboCreate';
+import { ComboEdit } from './components/combos/ComboEdit';
+
 
 function App() {
   return (
@@ -44,6 +48,9 @@ function App() {
             <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
               <Link to="/services">Servicios</Link>
             </li>
+            <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
+              <Link to="/combos">Combos</Link>
+            </li>
           </ul>
         </nav>
         <Routes>
@@ -59,6 +66,9 @@ function App() {
           <Route path="/services" element={<ServiceProvider><ServiceIndex /></ServiceProvider>} />
           <Route path="/services/create" element={<ServiceProvider><ServiceCreate /></ServiceProvider>} />
           <Route path="/services/:id/edit" element={<ServiceProvider><ServiceEdit /></ServiceProvider>} />
+          <Route path="/combos" element={<ComboProvider><ComboIndex /></ComboProvider>} />
+          <Route path="/combos/create" element={<ComboProvider><ComboCreate /></ComboProvider>} />
+          <Route path="/combos/:id/edit" element={<ComboProvider><ComboEdit /></ComboProvider>} />
         </Routes>
         </div>
       </div> 
