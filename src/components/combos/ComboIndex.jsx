@@ -35,7 +35,7 @@ export const ComboIndex = () => {
                             <th scope="col" className="px-6 py-3">
                                 Total
                             </th>
-                            <th scope="col" className="px-6 py-3"></th>
+                            <th scope="col" className="px-6 py-3">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,7 +44,24 @@ export const ComboIndex = () => {
                             <tr key={combo.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td className="px-6 py-4">{combo.id}</td>
                                 <td className="px-6 py-4">{combo.name}</td>
-                                <td className="px-6 py-4">{combo.service_ids}</td>
+                                <td>
+                                    <table>
+                                      <thead>
+                                        <tr>
+                                          <th>Nombre</th>
+                                          <th>Precio</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {combo.services.map((service) => (
+                                          <tr key={service.id}>
+                                            <td>{service.name}</td>
+                                            <td>{service.price}</td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </td>
                                 <td className="px-6 py-4">{combo.price}</td>
                                 <td className="px-6 py-4">{combo.discount}</td>
                                 <td className="px-6 py-4">{combo.total_price}</td>

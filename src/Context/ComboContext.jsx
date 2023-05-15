@@ -28,9 +28,9 @@ export const ComboProvider = ({ children }) => {
   const [services, setServices] = useState([]);
   
   const getCombos = async () => {
-    const apiCombos = await axios.get("combos");
-    setCombos(apiCombos.data.data);
-    };
+    const response = await axios.get("combos?with=services"); // Eager Loading
+    setCombos(response.data.data);
+};
 
   const getCombo = async (id) => {
     const response = await axios.get("combos/" + id);
