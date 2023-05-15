@@ -9,8 +9,10 @@ const ComboContext = createContext();
 export const ComboProvider = ({ children }) => {
   const initialForm = {
     name: "",
-    category_id: "",
+    service_id: "",
     price: "",
+    discount: "",
+    total_price: ""
   };
   const [formValues, setFormValues] = useState(initialForm);
 
@@ -39,9 +41,11 @@ export const ComboProvider = ({ children }) => {
   
     setCombo(apiCombo);
     setFormValues({
-      name: apiService.name,
-      category_id: selectedCategory ? selectedCategory.id : "", // Asigna category_id en lugar de category_name
-      price: apiService.price,
+      name: apiCombo.name,
+      services_id: selectedService ? selectedService.id : "", // Asigna category_id en lugar de category_name
+      price: apiCombo.price,
+      discount: apiCombo.discount,
+      total_price: apiCombo.total_price,
     });
   };
   
