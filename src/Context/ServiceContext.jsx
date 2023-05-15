@@ -32,15 +32,19 @@ export const ServiceProvider = ({ children }) => {
 
   const getService = async (id) => {
     const response = await axios.get("services/" + id);
-    const apiService = response.data.data
+    const apiService = response.data.data;
+  
+    // Obtén el objeto de la categoría seleccionada por su nombre
+    const selectedCategory = categories.find(category => category.name === apiService.category_name);
+  
     setService(apiService);
     setFormValues({
-    name: apiService.name,
-    category_name: apiService.category_name,
-    price: apiService.price,
+      name: apiService.name,
+      category_id: selectedCategory ? selectedCategory.id : "", // Asigna category_id en lugar de category_name
+      price: apiService.price,
     });
   };
-
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
