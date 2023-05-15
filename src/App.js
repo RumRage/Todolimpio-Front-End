@@ -3,6 +3,7 @@ import { CategoryProvider } from './Context/CategoryContext';
 import { ProductProvider } from './Context/ProductContext';
 import { DisposableProvider } from './Context/DisposableContext';
 import { ServiceProvider } from './Context/ServiceContext';
+import { ComboProvider } from './Context/ComboContext';
 
 import { Home } from './components/Home';
 
