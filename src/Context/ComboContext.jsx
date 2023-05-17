@@ -25,38 +25,40 @@ export const ComboProvider = ({ children }) => {
   const getCombos = async () => {
     const response = await axios.get("combos?with=services"); // Eager Loading
     setCombos(response.data.data);
-};
+  };
 
   const onChange = (event) => {
     const { name, value } = event.target;
-
+  
     // Si el campo es "service_id", verificamos si es un arreglo o no
     const updatedValue = name === 'service_id' ? Array.from(value) : value;
-
+  
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: updatedValue,
     }));
   };
-
+  
 
   const getCombo = async (id) => {
     const response = await axios.get("combos/" + id);
     const apiCombo = response.data.data;
   
-    // Obtén el objeto del servicio seleccionado por su nombre
-    const selectedService = services.find(service => service.name === apiCombo.service_name);
+    // Obtener todos los service_id del combo actual
+    const selectedServiceIds = apiCombo.services.map(service => service.service_id);
+console.log(selectedServiceIds);
   
     setCombo(apiCombo);
     setFormValues({
       name: apiCombo.name,
-      service_id: selectedService ? [selectedService.id] : [], // Asigna un array con el id del servicio seleccionado
+      service_id: selectedServiceIds, // Actualizar el nombre del campo
       price: apiCombo.price,
       discount: apiCombo.discount,
       total_price: apiCombo.total_price,
     });
   };
   
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
@@ -66,51 +68,54 @@ export const ComboProvider = ({ children }) => {
         console.log(error);
       }
     };
-  
+
     fetchServices();
   }, []);
 
   const storeCombo = async (e) => {
     e.preventDefault();
-    try{
-        await axios.post("combos", {
-            name: formValues.name,
-            price: formValues.price,
-            discount: formValues.discount,
-            total_price: formValues.total_price,
-            service_id: formValues.service_id // Cambio en el nombre del campo
-          });
+    try {
+      await axios.post("combos", {
+        name: formValues.name,
+        price: formValues.price,
+        discount: formValues.discount,
+        total_price: formValues.total_price,
+        service_id: formValues.service_id // Cambio en el nombre del campo
+      });
       setFormValues(initialForm);
       navigate("/combos");
-    } catch(e){
-      if(e.response.status === 422){
-      setErrors(e.response.data.errors);
+    } catch (e) {
+      if (e.response.status === 422) {
+        setErrors(e.response.data.errors);
       }
     }
-  }
+  };
 
   const updateCombo = async (e) => {
     e.preventDefault();
-        try{
-            await axios.put("combos/" + combo.id, formValues);
-            setFormValues(initialForm);
-            navigate("/combos");
-        } catch(e){
-            setErrors(e.response.data.errors);
-            if(e.response.status === 422){
-        }
+    try {
+      await axios.put("combos/" + combo.id, formValues);
+      setFormValues(initialForm);
+      navigate("/combos");
+    } catch (e) {
+      setErrors(e.response.data.errors);
+      if (e.response.status === 422) {
+        // Lógica adicional para manejar errores de validación si es necesario
+      }
     }
-  }
+  };
 
   const deleteCombo = async (id) => {
-    if(!window.confirm("Estás seguro?")){
+    if (!window.confirm("Estás seguro?")) {
       return;
     }
     await axios.delete("combos/" + id);
     getCombos();
-    }
-  
-  return <ComboContext.Provider value={{ combo, combos, getCombo, getCombos, onChange, formValues, storeCombo, errors, updateCombo, deleteCombo, setErrors, services, setServices }}>{children}</ComboContext.Provider>
-}
+  };
+
+  return (
+    <ComboContext.Provider value={{ combo, combos, getCombo, getCombos, onChange, formValues, storeCombo, errors, updateCombo, deleteCombo, setErrors, services, setServices }}>{children}</ComboContext.Provider>
+  );
+};
 
 export default ComboContext;
