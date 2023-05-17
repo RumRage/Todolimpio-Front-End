@@ -44,13 +44,13 @@ export const ComboProvider = ({ children }) => {
     const response = await axios.get("combos/" + id);
     const apiCombo = response.data.data;
   
-    // Obtén el objeto de la categoría seleccionada por su nombre
+    // Obtén el objeto del servicio seleccionado por su nombre
     const selectedService = services.find(service => service.name === apiCombo.service_name);
   
     setCombo(apiCombo);
     setFormValues({
       name: apiCombo.name,
-      services_id: selectedService ? selectedService.id : "", // Asigna category_id en lugar de category_name
+      service_id: selectedService ? [selectedService.id] : [], // Asigna un array con el id del servicio seleccionado
       price: apiCombo.price,
       discount: apiCombo.discount,
       total_price: apiCombo.total_price,
