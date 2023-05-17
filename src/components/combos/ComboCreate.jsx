@@ -18,15 +18,15 @@ export const ComboCreate = () => {
   }, []);
 
   const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
     },
-  },
-};
+  };
 
   return (
     <div className="mt-12">
@@ -39,27 +39,32 @@ const MenuProps = {
           </div>
 
           <div className="mb-4">
-  <label className="block mb-2 text-sm font-medium">Servicio</label>
-  <Select
-  labelId="demo-multiple-checkbox-label"
-  id="demo-multiple-checkbox"
-  name="services_ids" // Cambio en el nombre del campo
-  multiple
-  value={formValues.services_ids}
-  onChange={onChange}
-  input={<OutlinedInput label="Servicios" />}
-  renderValue={(selected) => selected.join(', ')}
-  MenuProps={MenuProps}
->
-  {services.map(service => (
-    <MenuItem key={service.id} value={service.id}>
-      <Checkbox checked={formValues.services_ids.includes(service.id)} />
-      <ListItemText primary={service.name} />
-    </MenuItem>
-  ))}
-</Select>
-  {errors.services_ids && <span className="text-sm text-red-400">{errors.services_ids[0]}</span>}
-</div>
+            <label className="block mb-2 text-sm font-medium">Servicio</label>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                name="service_id"
+                multiple
+                value={formValues.service_id}
+                onChange={onChange}
+                input={<OutlinedInput label="Servicios" />}
+                renderValue={(selected) =>
+                  selected.map((value) => {
+                    const service = services.find((service) => service.id === value);
+                    return service ? service.name : "";
+                  }).join(", ")
+                }
+                MenuProps={MenuProps}
+              >
+                {services.map((service) => (
+                  <MenuItem key={service.id} value={service.id}>
+                    <Checkbox checked={formValues.service_id.includes(service.id)} />
+                    <ListItemText primary={service.name} />
+                  </MenuItem>
+                ))}
+              </Select>
+              {errors.service_id && <span className="text-sm text-red-400">{errors.service_id[0]}</span>}
+            </div>
           <div className="mb-4">
             <label htmlFor="precio" className="block mb-2 text-sm font-medium">Precio</label>
             <input name="price" value={formValues["price"]} onChange={onChange} className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2" />

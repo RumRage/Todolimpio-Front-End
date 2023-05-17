@@ -27,20 +27,18 @@ export const ComboProvider = ({ children }) => {
     setCombos(response.data.data);
 };
 
-const onChange = (e) => {
-  const { name, options } = e.target;
-  const selectedIds = Array.from(options)
-    .filter((option) => option.selected)
-    .map((option) => option.value);
+  const onChange = (event) => {
+    const { name, value } = event.target;
 
-  setFormValues((prevFormValues) => ({
-    ...prevFormValues,
-    [name]: selectedIds,
-  }));
-};
+    // Si el campo es "service_id", verificamos si es un arreglo o no
+    const updatedValue = name === 'service_id' ? Array.from(value) : value;
 
-  
-  
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: updatedValue,
+    }));
+  };
+
 
   const getCombo = async (id) => {
     const response = await axios.get("combos/" + id);
@@ -80,7 +78,7 @@ const onChange = (e) => {
             price: formValues.price,
             discount: formValues.discount,
             total_price: formValues.total_price,
-            service_id: formValues.services_ids // Cambio en el nombre del campo
+            service_id: formValues.service_id // Cambio en el nombre del campo
           });
       setFormValues(initialForm);
       navigate("/combos");
@@ -90,8 +88,6 @@ const onChange = (e) => {
       }
     }
   }
-
-
 
   const updateCombo = async (e) => {
     e.preventDefault();
@@ -104,7 +100,7 @@ const onChange = (e) => {
             if(e.response.status === 422){
         }
     }
-}
+  }
 
   const deleteCombo = async (id) => {
     if(!window.confirm("Estás seguro?")){
@@ -114,7 +110,6 @@ const onChange = (e) => {
     getCombos();
     }
   
-
   return <ComboContext.Provider value={{ combo, combos, getCombo, getCombos, onChange, formValues, storeCombo, errors, updateCombo, deleteCombo, setErrors, services, setServices }}>{children}</ComboContext.Provider>
 }
 
