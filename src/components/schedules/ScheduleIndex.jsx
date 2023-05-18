@@ -7,6 +7,13 @@ export const ScheduleIndex = () => {
     useEffect(() => {
     getSchedules();
     }, [])
+
+    const paymentOptions = {
+        1: 'A confirmar',
+        2: 'Efectivo',
+        3: 'Transferencia',
+      };
+    
     
     return (
         <div className="mt-12">
@@ -83,7 +90,7 @@ export const ScheduleIndex = () => {
                                 <td className="px-6 py-4">{schedule.price}</td>
                                 <td className="px-6 py-4">{schedule.discount}</td>
                                 <td className="px-6 py-4">{schedule.total_price}</td>
-                                <td className="px-6 py-4">{schedule.payments}</td>
+                                <td className="px-6 py-4">{paymentOptions[schedule.payments]}</td>
                                 <td className="px-6 py-4">{schedule.status}</td>
                                 <td className="px-6 py-4 space-x-2">
                                  <Link to={`/schedules/${schedule.id}/edit`} className="px-4 py-2 bg-green-500 hover:bg-green-700 text-white rounded-md">Editar</Link>

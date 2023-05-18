@@ -7,13 +7,16 @@ axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/";
 const ScheduleContext = createContext();
 
 export const ScheduleProvider = ({ children }) => {
-  const initialForm = {
-  name: "",
-  combo_id: [],
-  price: "",
-  discount: "",
-  total_price: "",
-  };
+    const initialForm = {
+        name: "",
+        tel: "",
+        address: "",
+        combo_id: [],
+        price: "",
+        discount: "",
+        total_price: "",
+        payments: 1, 
+      };
 
   const [formValues, setFormValues] = useState(initialForm);
   const [schedules, setSchedules] = useState([]);
@@ -21,6 +24,7 @@ export const ScheduleProvider = ({ children }) => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [combos, setCombos] = useState([]);
+  const [payments, setPayments] = useState('');
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
 
@@ -100,7 +104,7 @@ export const ScheduleProvider = ({ children }) => {
 
   const onChange = (event) => {
     const { name, value } = event.target;
-  
+    setPayments(event.target.value);
     if (name === 'combo_id') {
       const selectedComboIds = Array.isArray(value) ? value.map(comboId => Number(comboId)) : [];
       setFormValues(prevValues => ({
@@ -133,10 +137,13 @@ export const ScheduleProvider = ({ children }) => {
     setFormValues((prevValues) => ({
       ...prevValues,
       name: apiSchedule.name,
+      tel: apiSchedule.tel,
+      address: apiSchedule.address,
       combo_id: selectedComboIds, 
       price: apiSchedule.price,
       discount: apiSchedule.discount,
       total_price: apiSchedule.total_price,
+      payments: apiSchedule.payments,
     }));
   };
 
@@ -158,19 +165,22 @@ export const ScheduleProvider = ({ children }) => {
 
   const storeSchedule = async (e) => {
     e.preventDefault();
-      try {
-        await axios.post("schedules", {
-          name: formValues.name,
-          price: formValues.price,
-          discount: formValues.discount,
-          total_price: formValues.total_price,
-          combo_id: formValues.combo_id 
-        });
+    try {
+      await axios.post("schedules", {
+        name: formValues.name,
+        tel: formValues.tel,
+        address: formValues.address,
+        price: formValues.price,
+        discount: formValues.discount,
+        total_price: formValues.total_price,
+        combo_id: formValues.combo_id,
+        payments: parseInt(formValues.payments), // Agrega el campo de pagos
+      });
       setFormValues(initialForm);
       navigate("/schedules");
-      } catch (e) {
-        if (e.response.status === 422) {
-         setErrors(e.response.data.errors);
+    } catch (e) {
+      if (e.response.status === 422) {
+        setErrors(e.response.data.errors);
       }
     }
   };
@@ -213,7 +223,8 @@ export const ScheduleProvider = ({ children }) => {
       setErrors, 
       combos, 
       setCombos,
-      MenuProps
+      MenuProps,
+      payments,
     }}>{children}
     </ScheduleContext.Provider>
   );
