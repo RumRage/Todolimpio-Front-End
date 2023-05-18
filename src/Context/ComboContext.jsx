@@ -14,6 +14,7 @@ export const ComboProvider = ({ children }) => {
   discount: "",
   total_price: ""
   };
+
   const [formValues, setFormValues] = useState(initialForm);
   const [combos, setCombos] = useState([]);
   const [combo, setCombo] = useState([]);
@@ -37,17 +38,51 @@ export const ComboProvider = ({ children }) => {
     setCombos(response.data.data);
   };
 
+  const calculateTotalPrice = (selectedServiceIds) => {
+    const totalPrice = selectedServiceIds.reduce((sum, serviceId) => {
+      const service = services.find(service => service.id === serviceId);
+      return sum + (service ? Number(service.price) : 0);
+    }, 0);
+  
+    const discount = Number(formValues.discount);
+    const discountedPrice = totalPrice - discount;
+  
+    setFormValues(prevValues => ({
+      ...prevValues,
+      price: totalPrice.toFixed(2), // Mostrar el precio sin descuento con 2 decimales
+      total_price: discountedPrice.toFixed(2), // Mostrar el precio con descuento con 2 decimales
+    }));
+  };
+
+  const calculateTotalWithDiscount = () => {
+    const price = parseFloat(formValues.price);
+    const discount = parseFloat(formValues.discount);
+    const discountedPrice = price - (price * (discount / 100));
+    setFormValues(prevValues => ({
+      ...prevValues,
+      total_price: discountedPrice.toFixed(2), // Mostrar el precio total con descuento
+    }));
+  };
+  
+
   const onChange = (event) => {
     const { name, value } = event.target;
-
+  
     if (name === 'service_id') {
       const selectedServiceIds = Array.isArray(value) ? value.map(serviceId => Number(serviceId)) : [];
-      setFormValues((prevValues) => ({
+      setFormValues(prevValues => ({
         ...prevValues,
         [name]: selectedServiceIds,
       }));
+      calculateTotalPrice(selectedServiceIds); // Calcular el precio total con los service_id seleccionados
+    } else if (name === 'discount') {
+      setFormValues(prevValues => ({
+        ...prevValues,
+        [name]: value,
+      }));
+      calculateTotalWithDiscount(); // Calcular el precio total con descuento
     } else {
-      setFormValues((prevValues) => ({
+      setFormValues(prevValues => ({
         ...prevValues,
         [name]: value,
       }));
@@ -65,7 +100,7 @@ export const ComboProvider = ({ children }) => {
     setFormValues((prevValues) => ({
       ...prevValues,
       name: apiCombo.name,
-      service_id: selectedServiceIds, // Actualizar el nombre del campo
+      service_id: selectedServiceIds, 
       price: apiCombo.price,
       discount: apiCombo.discount,
       total_price: apiCombo.total_price,
@@ -96,7 +131,7 @@ export const ComboProvider = ({ children }) => {
           price: formValues.price,
           discount: formValues.discount,
           total_price: formValues.total_price,
-          service_id: formValues.service_id // Cambio en el nombre del campo
+          service_id: formValues.service_id 
         });
       setFormValues(initialForm);
       navigate("/combos");
