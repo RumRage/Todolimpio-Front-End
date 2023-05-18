@@ -15,9 +15,13 @@ const selectedServiceIds = formValues.service_id || []; // Inicializar como un a
 
 let { id } = useParams();
 useEffect(() => {
-getCombo(id);
-setErrors({});
-}, []);
+  const fetchCombo = async () => {
+    await getCombo(id);
+    setErrors({});
+  };
+
+  fetchCombo();
+}, [id]); 
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

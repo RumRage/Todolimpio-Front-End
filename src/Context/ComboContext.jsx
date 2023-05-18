@@ -28,42 +28,54 @@ setCombos(response.data.data);
 };
 
 const onChange = (event) => {
-const { name, value } = event.target;
-// Si el campo es "service_id", verificamos si es un arreglo o no
-const updatedValue = name === 'service_id' ? Array.from(value) : value;
-setFormValues((prevValues) => ({
-...prevValues,
-[name]: updatedValue,
-}));
+  const { name, value } = event.target;
+  
+  if (name === 'service_id') {
+    const selectedServiceIds = Array.isArray(value) ? value.map(serviceId => Number(serviceId)) : [];
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: selectedServiceIds,
+    }));
+  } else {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  }
 };
 
 const getCombo = async (id) => {
-const response = await axios.get("combos/" + id);
-const apiCombo = response.data.data;
-// Obtener todos los service_id del combo actual
-const selectedServiceIds = apiCombo.services.map(service => service.service_id);
-console.log(selectedServiceIds);
-setCombo(apiCombo);
-setFormValues({
-name: apiCombo.name,
-service_id: selectedServiceIds, // Actualizar el nombre del campo
-price: apiCombo.price,
-discount: apiCombo.discount,
-total_price: apiCombo.total_price,
-});
+  const response = await axios.get("combos/" + id);
+  const apiCombo = response.data.data;
+
+  // Obtener todos los service_id del combo actual
+  const selectedServiceIds = apiCombo.services.map(service => service.id);
+
+  setCombo(apiCombo);
+  setFormValues((prevValues) => ({
+    ...prevValues,
+    name: apiCombo.name,
+    service_id: selectedServiceIds, // Actualizar el nombre del campo
+    price: apiCombo.price,
+    discount: apiCombo.discount,
+    total_price: apiCombo.total_price,
+  }));
 };
 
 useEffect(() => {
-const fetchServices = async () => {
-try {
-const response = await axios.get('/services');
-setServices(response.data.data);
-} catch (error) {
-console.log(error);
-}
-};
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get('/services');
+      const fetchedServices = response.data.data;
+      // Combinar los nuevos servicios con los existentes
+      const mergedServices = [...services, ...fetchedServices];
+      setServices(mergedServices);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-fetchServices();
+  fetchServices();
 }, []);
 
 const storeCombo = async (e) => {
