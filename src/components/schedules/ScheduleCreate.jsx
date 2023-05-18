@@ -7,6 +7,10 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TextField } from '@mui/material';
 
 
 export const ScheduleCreate = () => {
@@ -37,7 +41,20 @@ return (
 <input name="address" value={formValues["address"]} onChange={onChange} className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2" />
 {errors.address && <span className="text-sm text-red-400">{ errors.address[0]}</span>}
 </div>
-
+<div className="mb-4">
+  <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <label htmlFor="fecha-hora" className="block mb-2 text-sm font-medium">Fecha y Hora</label>
+    <DateTimePicker
+      value={formValues.date_time}
+      onChange={(date) => onChange({ target: { name: 'date_time', value: date.format('YYYY/MM/DD HH:mm:ss') } })}
+      textField={(props) => <TextField {...props} />}
+      label="Fecha y Hora"
+      ampm={false}
+      inputFormat="yyyy/MM/dd HH:mm:ss"
+    />
+    {errors.date_time && <span className="text-sm text-red-400">{errors.date_time[0]}</span>}
+  </LocalizationProvider>
+</div>
 <div className="mb-4">
 <FormControl sx={{ m: 1, width: 300 }}>
 <InputLabel id="demo-multiple-checkbox-label">Combos</InputLabel>

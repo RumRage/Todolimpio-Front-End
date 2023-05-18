@@ -11,6 +11,7 @@ export const ScheduleProvider = ({ children }) => {
         name: "",
         tel: "",
         address: "",
+        date_time: "",
         combo_id: [],
         price: "",
         discount: "",
@@ -139,6 +140,7 @@ export const ScheduleProvider = ({ children }) => {
       name: apiSchedule.name,
       tel: apiSchedule.tel,
       address: apiSchedule.address,
+      date_time: apiSchedule.date_time,
       combo_id: selectedComboIds, 
       price: apiSchedule.price,
       discount: apiSchedule.discount,
@@ -170,10 +172,11 @@ export const ScheduleProvider = ({ children }) => {
         name: formValues.name,
         tel: formValues.tel,
         address: formValues.address,
+        date_time: formValues.date_time,
+        combo_id: formValues.combo_id,
         price: formValues.price,
         discount: formValues.discount,
         total_price: formValues.total_price,
-        combo_id: formValues.combo_id,
         payments: parseInt(formValues.payments), // Agrega el campo de pagos
       });
       setFormValues(initialForm);
