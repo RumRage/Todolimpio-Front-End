@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import ComboContext from "../../Context/ComboContext";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
@@ -33,7 +35,8 @@ return (
 </div>
 
 <div className="mb-4">
-<label className="block mb-2 text-sm font-medium">Servicio</label>
+<FormControl sx={{ m: 1, width: 300 }}>
+<InputLabel id="demo-multiple-checkbox-label">Servicios</InputLabel>
 <Select
 labelId="demo-multiple-checkbox-label"
 id="demo-multiple-checkbox"
@@ -52,6 +55,9 @@ return service ? service.name : "";
 }
 MenuProps={MenuProps}
 >
+<MenuItem value="">
+<em>Selecciona un servicio</em>
+</MenuItem>
 {services.map((service) => (
 <MenuItem key={service.id} value={service.id}>
 <Checkbox checked={(selectedServiceIds || []).includes(service.id)} />
@@ -61,6 +67,7 @@ MenuProps={MenuProps}
 </Select>
 
 {errors.service_id && <span className="text-sm text-red-400">{errors.service_id[0]}</span>}
+</FormControl>
 </div>
 <div className="mb-4">
 <label htmlFor="precio" className="block mb-2 text-sm font-medium">Precio</label>
