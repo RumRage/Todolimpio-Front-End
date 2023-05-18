@@ -21,16 +21,23 @@ export const ServiceEdit = () => {
         <div className="mb-4">
             <label className="block mb-2 text-sm font-medium">Categoria</label>
             <select
-                name="category_id"
-                value={formValues.category_id}
-                onChange={onChange}
-                className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+              name="category_id"
+              value={formValues.category_id}
+              onChange={onChange}
+              className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
             >
-            <option value="">Seleccione una categoria</option>
-                {categories.map(category => (
-                    <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
+              <option value="">Seleccione una categoría</option>
+              {categories.map(category => (
+                <option
+                  key={category.id}
+                  value={category.id}
+                  defaultValue={category.id === formValues.category_id ? "selected" : undefined} // Establece el atributo "defaultValue" si es la categoría seleccionada
+                >
+                  {category.name}
+                </option>
+              ))}
             </select>
+
             {errors.category_id && <span className="text-sm text-red-400">{ errors.category_id[0]}</span>}
           </div>
         <div className="mb-4">
