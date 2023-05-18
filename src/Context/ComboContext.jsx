@@ -53,16 +53,49 @@ export const ComboProvider = ({ children }) => {
       total_price: discountedPrice.toFixed(2), // Mostrar el precio con descuento con 2 decimales
     }));
   };
-
-  const calculateTotalWithDiscount = () => {
-    const price = parseFloat(formValues.price);
-    const discount = parseFloat(formValues.discount);
-    const discountedPrice = price - (price * (discount / 100));
-    setFormValues(prevValues => ({
-      ...prevValues,
-      total_price: discountedPrice.toFixed(2), // Mostrar el precio total con descuento
-    }));
+  const calculateDiscountedPrice = () => {
+    if (formValues.service_id.length > 0) {
+      const selectedPrices = formValues.service_id.map(serviceId => {
+        const service = services.find(service => service.id === serviceId);
+        return service ? parseFloat(service.price) : 0;
+      });
+      const totalPrice = selectedPrices.reduce((acc, curr) => acc + curr);
+      const discount = parseFloat(formValues.discount || 0);
+      const discountedPrice = totalPrice * (1 - discount / 100);
+    
+      setFormValues(prevValues => ({
+        ...prevValues,
+        price: totalPrice.toFixed(2), // Mostrar el precio sin descuento con 2 decimales
+        total_price: discountedPrice.toFixed(2), // Mostrar el precio con descuento con 2 decimales
+      }));
+    } else {
+      setFormValues(prevValues => ({
+        ...prevValues,
+        price: "0.00",
+        total_price: "0.00",
+      }));
+    }
   };
+  
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get('/services');
+        const fetchedServices = response.data.data;
+        // Combinar los nuevos servicios con los existentes
+        const mergedServices = [...services, ...fetchedServices];
+        setServices(mergedServices);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchServices();
+  }, []);
+  
+  useEffect(() => {
+    calculateDiscountedPrice();
+  }, [formValues.service_id, formValues.discount]);
   
 
   const onChange = (event) => {
@@ -80,7 +113,7 @@ export const ComboProvider = ({ children }) => {
         ...prevValues,
         [name]: value,
       }));
-      calculateTotalWithDiscount(); // Calcular el precio total con descuento
+      calculateDiscountedPrice(); // Calcular el precio total con descuento
     } else {
       setFormValues(prevValues => ({
         ...prevValues,
