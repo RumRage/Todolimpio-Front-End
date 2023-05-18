@@ -4,6 +4,7 @@ import { ProductProvider } from './Context/ProductContext';
 import { DisposableProvider } from './Context/DisposableContext';
 import { ServiceProvider } from './Context/ServiceContext';
 import { ComboProvider } from './Context/ComboContext';
+import { ScheduleProvider } from './Context/ScheduleContext';
 
 import { Home } from './components/Home';
 
@@ -27,6 +28,9 @@ import { ComboIndex } from './components/combos/ComboIndex';
 import { ComboCreate } from './components/combos/ComboCreate';
 import { ComboEdit } from './components/combos/ComboEdit';
 
+import { ScheduleIndex } from './components/schedules/ScheduleIndex';
+import { ScheduleCreate } from './components/schedules/ScheduleCreate';
+import { ScheduleEdit } from './components/schedules/ScheduleEdit';
 
 function App() {
   return (
@@ -52,6 +56,9 @@ function App() {
             <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
               <Link to="/combos">Combos</Link>
             </li>
+            <li className='m-2 p-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-md'>
+              <Link to="/schedules">Agenda</Link>
+            </li>
           </ul>
         </nav>
         <Routes>
@@ -70,6 +77,9 @@ function App() {
           <Route path="/combos" element={<ComboProvider><ComboIndex /></ComboProvider>} />
           <Route path="/combos/create" element={<ComboProvider><ComboCreate /></ComboProvider>} />
           <Route path="/combos/:id/edit" element={<ComboProvider><ComboEdit /></ComboProvider>} />
+          <Route path="/schedules" element={<ScheduleProvider><ScheduleIndex /></ScheduleProvider>} />
+          <Route path="/schedules/create" element={<ScheduleProvider><ScheduleCreate /></ScheduleProvider>} />
+          <Route path="/schedules/:id/edit" element={<ScheduleProvider><ScheduleEdit /></ScheduleProvider>} />
         </Routes>
         </div>
       </div> 
