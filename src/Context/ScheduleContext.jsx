@@ -12,7 +12,7 @@ export const ScheduleProvider = ({ children }) => {
   combo_id: [],
   price: "",
   discount: "",
-  total_price: ""
+  total_price: "",
   };
 
   const [formValues, setFormValues] = useState(initialForm);
