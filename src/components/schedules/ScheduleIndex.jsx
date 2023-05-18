@@ -23,8 +23,17 @@ export const ScheduleIndex = () => {
                             <th scope="col" className="px-6 py-3">
                                 Nombre
                             </th>
+                             <th scope="col" className="px-6 py-3">
+                                Teléfono
+                            </th>
                             <th scope="col" className="px-6 py-3">
-                                Servicio
+                                Dirección
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Fecha
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Combo
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Precio
@@ -35,6 +44,12 @@ export const ScheduleIndex = () => {
                             <th scope="col" className="px-6 py-3">
                                 Total
                             </th>
+                            <th scope="col" className="px-6 py-3">
+                                Pago
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Estado
+                            </th>
                             <th scope="col" className="px-6 py-3">Acciones</th>
                         </tr>
                     </thead>
@@ -44,6 +59,9 @@ export const ScheduleIndex = () => {
                             <tr key={schedule.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td className="px-6 py-4">{schedule.id}</td>
                                 <td className="px-6 py-4">{schedule.name}</td>
+                                <td className="px-6 py-4">{schedule.tel}</td>
+                                <td className="px-6 py-4">{schedule.address}</td>
+                                <td className="px-6 py-4">{schedule.date_time}</td>
                                 <td>
                                     <table>
                                       <thead>
@@ -65,6 +83,8 @@ export const ScheduleIndex = () => {
                                 <td className="px-6 py-4">{schedule.price}</td>
                                 <td className="px-6 py-4">{schedule.discount}</td>
                                 <td className="px-6 py-4">{schedule.total_price}</td>
+                                <td className="px-6 py-4">{schedule.payments}</td>
+                                <td className="px-6 py-4">{schedule.status}</td>
                                 <td className="px-6 py-4 space-x-2">
                                  <Link to={`/schedules/${schedule.id}/edit`} className="px-4 py-2 bg-green-500 hover:bg-green-700 text-white rounded-md">Editar</Link>
                                  <button onClick={() => deleteSchedule(schedule.id)} className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded-md">Borrar</button>
