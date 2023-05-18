@@ -10,22 +10,13 @@ import Checkbox from '@mui/material/Checkbox';
 
 
 export const ComboCreate = () => {
-const { formValues, onChange, storeCombo, errors, setErrors, services, setServices } = useContext(ComboContext);
+const { formValues, onChange, storeCombo, errors, setErrors, services, setServices, MenuProps } = useContext(ComboContext);
 
 useEffect(() => {
-setErrors({});
+  setErrors({});
 }, []);
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-PaperProps: {
-style: {
-maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-width: 250,
-},
-},
-};
+
 
 return (
 <div className="mt-12">
