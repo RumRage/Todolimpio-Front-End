@@ -8,9 +8,13 @@ import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import { useParams } from "react-router-dom";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TextField } from '@mui/material';
 
 export const ScheduleEdit = () => {
-const { formValues, onChange, errors, setErrors, getSchedule, updateSchedule, combos, MenuProps } = useContext(ScheduleContext);
+const { formValues, onChange, errors, setErrors, getSchedule, updateSchedule, combos, MenuProps, payments } = useContext(ScheduleContext);
 const selectedComboIds = formValues.combo_id || []; // Inicializar como un arreglo vacío si es undefined
 
 let { id } = useParams();
@@ -33,7 +37,20 @@ return (
 <input name="name" value={formValues["name"]} onChange={onChange} className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2" />
 {errors.name && <span className="text-sm text-red-400">{errors.name[0]}</span>}
 </div>
-
+<div className="mb-4">
+  <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <label htmlFor="fecha-hora" className="block mb-2 text-sm font-medium">Fecha y Hora</label>
+    <DateTimePicker
+      value={formValues.date_time}
+      onChange={(date) => onChange({ target: { name: 'date_time', value: date.format('YYYY/MM/DD HH:mm:ss') } })}
+      textField={(props) => <TextField {...props} />}
+      label="Fecha y Hora"
+      ampm={false}
+      inputFormat="yyyy/MM/dd HH:mm:ss"
+    />
+    {errors.date_time && <span className="text-sm text-red-400">{errors.date_time[0]}</span>}
+  </LocalizationProvider>
+</div>
 <div className="mb-4">
 <FormControl sx={{ m: 1, width: 300 }}>
 <InputLabel id="demo-multiple-checkbox-label">Servicios</InputLabel>
@@ -83,6 +100,24 @@ MenuProps={MenuProps}
 <label htmlFor="total" className="block mb-2 text-sm font-medium">Total</label>
 <input name="total_price" value={formValues["total_price"]} onChange={onChange} className="border border-gray-300 text-gray-900 text-sm rounded-md block w-full p-2" />
 {errors.total_price && <span className="text-sm text-red-400">{errors.total_price[0]}</span>}
+</div>
+<div className="mb-4">
+<FormControl fullWidth>
+  <InputLabel id="payments-label">Metodo de pago</InputLabel>
+  <Select
+    labelId="payments-label"
+    id="payments"
+    value={formValues.payments}
+    onChange={onChange}
+    name="payments"
+    error={errors.payments ? true : false}
+  >
+    <MenuItem value={1}>A confirmar</MenuItem>
+    <MenuItem value={2}>Efectivo</MenuItem>
+    <MenuItem value={3}>Transferencia</MenuItem>
+  </Select>
+  {errors.payments && <span className="error">{errors.payments[0]}</span>}
+</FormControl>
 </div>
 </div>
 <div className="my-4">
